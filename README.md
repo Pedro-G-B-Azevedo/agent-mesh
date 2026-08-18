@@ -6,7 +6,7 @@ tracing, and a provider-agnostic core.
 
 [![CI](https://github.com/Pedro-G-B-Azevedo/agent-mesh/actions/workflows/ci.yml/badge.svg)](https://github.com/Pedro-G-B-Azevedo/agent-mesh/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-![Node](https://img.shields.io/badge/node-%3E%3D20.12-brightgreen)
+![Node](https://img.shields.io/badge/node-%3E%3D22-brightgreen)
 
 ## Why
 

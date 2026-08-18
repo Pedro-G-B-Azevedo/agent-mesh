@@ -17,7 +17,7 @@ jobs:
           # Matches the "engines" field in package.json — CI proves the
           # minimum supported version actually works, instead of that field
           # being an unverified claim.
-          node-version: "20.12"
+          node-version: "22"
           cache: "npm"
 
       - run: npm ci
