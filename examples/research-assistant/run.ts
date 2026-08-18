@@ -28,7 +28,15 @@ async function main() {
 
   const topic = process.argv[2] ?? "O impacto de agentes de IA autônomos no mercado de trabalho de TI";
 
-  const llm = createGeminiLLM({ apiKey, model: process.env.GEMINI_MODEL });
+  // Build the options object conditionally instead of `model:
+  // process.env.GEMINI_MODEL` directly: an unset env var reads back as
+  // undefined, but "GEMINI_MODEL=" with nothing after the "=" in a .env
+  // file reads back as an empty string — which is a valid `string`, so
+  // `?? "default"` would never catch it and the SDK would receive model:
+  // "" and reject it. Treating both "unset" and "empty" as "not provided"
+  // is what the user actually means by leaving the line blank.
+  const modelOverride = process.env.GEMINI_MODEL;
+  const llm = createGeminiLLM(modelOverride ? { apiKey, model: modelOverride } : { apiKey });
   const graph = buildResearchGraph();
 
   console.log(`\nTema: ${topic}\n`);
