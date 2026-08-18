@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Agent Mesh — O impacto de agentes de IA autônomos no mercado de trabalho de TI</title>
+<style>
+  :root {
+    --bg: #ffffff; --fg: #1a1a1a; --muted: #9a9a9a; --muted-fill: #f2f2f2;
+    --accent: #2563eb; --accent-fill: #dbeafe; --border: #e2e2e2;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a; --fg: #e8e8e8; --muted: #6b7280; --muted-fill: #1f2329;
+      --accent: #60a5fa; --accent-fill: #1e3a5f; --border: #2a2e35;
+    }
+  }
+  body { background: var(--bg); color: var(--fg); font-family: system-ui, sans-serif; margin: 0; padding: 24px; }
+  h1 { font-size: 1.1rem; font-weight: 600; }
+  svg { max-width: 100%; height: auto; display: block; margin: 16px 0; }
+  .node rect { stroke-width: 1.5; }
+  .node text { font-size: 13px; font-family: inherit; }
+  .node-idle rect { fill: var(--muted-fill); stroke: var(--border); }
+  .node-idle text { fill: var(--muted); }
+  .node-executed rect { fill: var(--accent-fill); stroke: var(--accent); }
+  .node-executed text { fill: var(--fg); font-weight: 600; }
+  .node-end rect { rx: 25; }
+  .edge path { stroke-width: 1.5; }
+  .edge-idle path { stroke: var(--border); stroke-dasharray: 4 3; }
+  .edge-executed path { stroke: var(--accent); stroke-width: 2; }
+  .edge-label { font-size: 11px; fill: var(--muted); font-family: inherit; }
+  .edge-executed .edge-label { fill: var(--accent); font-weight: 600; }
+  .marker-idle { fill: var(--border); }
+  .marker-executed { fill: var(--accent); }
+  table { border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+  th, td { border: 1px solid var(--border); padding: 4px 10px; text-align: left; }
+  th { background: var(--muted-fill); }
+</style>
+</head>
+<body>
+  <h1>Agent Mesh — O impacto de agentes de IA autônomos no mercado de trabalho de TI</h1>
+  <p>4 steps executed.</p>
+  
+<svg viewBox="0 0 920 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Agent Mesh execution graph">
+  <defs>
+    <marker id="arrow-idle" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="marker-idle" />
+    </marker>
+    <marker id="arrow-executed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="marker-executed" />
+    </marker>
+  </defs>
+  
+    <g class="edge edge-executed">
+      <path d="M 200 85 L 260 85" fill="none" marker-end="url(#arrow-executed)" />
+      <text class="edge-label" x="230" y="77" text-anchor="middle">#1</text>
+    </g>
+
+    <g class="edge edge-executed">
+      <path d="M 400 85 L 460 85" fill="none" marker-end="url(#arrow-executed)" />
+      <text class="edge-label" x="430" y="77" text-anchor="middle">#2</text>
+    </g>
+
+    <g class="edge edge-executed">
+      <path d="M 600 85 L 660 85" fill="none" marker-end="url(#arrow-executed)" />
+      <text class="edge-label" x="630" y="77" text-anchor="middle">#3</text>
+    </g>
+
+    <g class="edge edge-executed">
+      <path d="M 800 85 L 860 85" fill="none" marker-end="url(#arrow-executed)" />
+      <text class="edge-label" x="830" y="77" text-anchor="middle">approved · #4</text>
+    </g>
+
+    <g class="edge edge-idle">
+      <path d="M 730 110 C 730 150, 530 150, 530 110" fill="none" marker-end="url(#arrow-idle)" />
+      <text class="edge-label" x="630" y="164" text-anchor="middle">revise</text>
+    </g>
+  
+    <g class="node node-executed">
+      <rect x="60" y="60" width="140" height="50" rx="8" />
+      <text x="130" y="85" text-anchor="middle" dominant-baseline="middle">planner</text>
+    </g>
+
+    <g class="node node-executed">
+      <rect x="260" y="60" width="140" height="50" rx="8" />
+      <text x="330" y="85" text-anchor="middle" dominant-baseline="middle">researcher</text>
+    </g>
+
+    <g class="node node-executed">
+      <rect x="460" y="60" width="140" height="50" rx="8" />
+      <text x="530" y="85" text-anchor="middle" dominant-baseline="middle">writer</text>
+    </g>
+
+    <g class="node node-executed">
+      <rect x="660" y="60" width="140" height="50" rx="8" />
+      <text x="730" y="85" text-anchor="middle" dominant-baseline="middle">critic</text>
+    </g>
+  
+    <g class="node node-end">
+      <rect x="860" y="60" width="140" height="50" rx="8" />
+      <text x="930" y="85" text-anchor="middle" dominant-baseline="middle">END</text>
+    </g>
+</svg>
+  
+  <table>
+    <thead><tr><th>#</th><th>Node</th><th>Duration</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>planner</td>
+        <td>9862ms</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>researcher</td>
+        <td>19823ms</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>writer</td>
+        <td>10807ms</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>critic</td>
+        <td>5404ms</td>
+      </tr></tbody>
+  </table>
+</body>
+</html>

@@ -5,6 +5,7 @@ import type {
   ConditionalEdge,
   ExecutionContext,
   ExecutionResult,
+  GraphDescription,
   NodeHandler,
   TraceStep,
 } from "./types.js";
@@ -30,6 +31,20 @@ export class CompiledGraph<TState extends Record<string, unknown>> {
     private readonly entryPoint: NodeId,
     private readonly options: CompileOptions,
   ) {}
+
+  /** Read-only snapshot of the validated topology — see GraphDescription
+   * for why this exists (the visualizer's input contract). */
+  describe(): GraphDescription {
+    return {
+      entryPoint: this.entryPoint,
+      nodes: [...this.nodes.keys()],
+      edges: [...this.edges.entries()].map(([from, to]) => ({ from, to })),
+      conditionalEdges: [...this.conditionalEdges.entries()].map(([from, edge]) => ({
+        from,
+        cases: Object.entries(edge.pathMap).map(([key, to]) => ({ key, to })),
+      })),
+    };
+  }
 
   async invoke(initialState: TState, ctx: ExecutionContext): Promise<ExecutionResult<TState>> {
     const maxSteps = this.options.maxSteps ?? DEFAULT_MAX_STEPS;

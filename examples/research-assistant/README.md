@@ -22,6 +22,12 @@ cp examples/research-assistant/.env.example examples/research-assistant/.env
 npm run example:research -- "your topic here"
 ```
 
+Each run writes `trace.html` next to this file (gitignored — it's
+regenerated every time) — open it in a browser to see the graph with the
+actual path highlighted. **Don't have a key handy?** [sample-trace.html](sample-trace.html)
+is a real, committed output from an actual run — open it directly, no setup
+needed.
+
 ## Why this example exists
 
 The core library (`src/`) never imports `@google/genai` — this example is the

@@ -1,3 +1,6 @@
+import { writeFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import { renderTraceHtml } from "../../src/index.js";
 import { createGeminiLLM } from "./gemini-client.js";
 import { buildResearchGraph } from "./graph.js";
 
@@ -52,6 +55,20 @@ async function main() {
     console.log(`  ${step.node.padEnd(10)} ${step.durationMs}ms`);
   }
   console.log(`\nTotal de passos: ${result.steps}, revisões: ${result.finalState.revisionCount}`);
+
+  // graph.describe() exposes the validated topology (Decision 12 in the
+  // conversation this was built in) — renderTraceHtml draws it once and
+  // overlays exactly the path this run took, straight from `result.trace`.
+  const html = renderTraceHtml(graph.describe(), result, {
+    title: `Agent Mesh — ${topic}`,
+  });
+  const outputUrl = new URL("trace.html", import.meta.url);
+  await writeFile(outputUrl, html, "utf-8");
+  // fileURLToPath, not outputUrl.pathname directly: pathname is
+  // percent-encoded (spaces become %20, accented characters become
+  // %XX sequences), which is correct for a URL but useless as a path to
+  // hand back to the user to open — this repo's own folder name has both.
+  console.log(`\nVisualização salva em: ${fileURLToPath(outputUrl)}`);
 }
 
 main().catch((error: unknown) => {

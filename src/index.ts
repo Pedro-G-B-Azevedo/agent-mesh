@@ -4,11 +4,14 @@ export { AgentMeshError } from "./errors.js";
 export { AgentGraph } from "./graph.js";
 export { CompiledGraph } from "./executor.js";
 export { createMockLLM } from "./llm/mock-llm.js";
+export { buildGraphSvg, computeLayout, renderTraceHtml } from "./visualize/index.js";
+export type { Layout, NodePosition, RenderTraceHtmlOptions } from "./visualize/index.js";
 export type {
   CompileOptions,
   ConditionalEdge,
   ExecutionContext,
   ExecutionResult,
+  GraphDescription,
   LLMClient,
   NodeHandler,
   Router,

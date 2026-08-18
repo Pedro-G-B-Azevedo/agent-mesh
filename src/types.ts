@@ -76,3 +76,20 @@ export interface CompileOptions {
    * at the cause. */
   maxSteps?: number;
 }
+
+/**
+ * Read-only, JSON-serializable snapshot of a compiled graph's topology —
+ * plain arrays of plain objects, no Map, no class instance.
+ *
+ * Why this shape specifically: it's the input contract for the visualizer
+ * (and for any other future consumer — a CLI graph-printer, a linter...).
+ * Keeping it structural instead of exposing AgentGraph's internal Maps
+ * means those consumers never depend on how the graph is stored internally,
+ * only on what it means.
+ */
+export interface GraphDescription {
+  entryPoint: NodeId;
+  nodes: NodeId[];
+  edges: { from: NodeId; to: EdgeTarget }[];
+  conditionalEdges: { from: NodeId; cases: { key: string; to: EdgeTarget }[] }[];
+}

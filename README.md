@@ -54,6 +54,12 @@ Total de passos: 8, revisões: 2
 The critic sent the draft back to the writer twice before converging — the
 trace above is the graph's actual decisions on a real run, not a mock.
 
+`invoke()`'s result feeds straight into `renderTraceHtml()`, which draws the
+full graph and highlights exactly the path (and, for loops, how many times
+each edge was crossed) a specific run took — no setup needed to see it:
+open [examples/research-assistant/sample-trace.html](examples/research-assistant/sample-trace.html),
+a real committed output from an actual run.
+
 ## Features
 
 - **Explicit topology** — `addNode`, `addEdge`, `addConditionalEdge` declare
@@ -64,6 +70,9 @@ trace above is the graph's actual decisions on a real run, not a mock.
 - **Execution tracing** — every run returns the full sequence of
   node/input/output/duration, so a graph's actual path is inspectable, not
   just its shape.
+- **Trace visualization** — `renderTraceHtml()` turns a `describe()` +
+  `invoke()` result into a self-contained, dark-mode-aware HTML file: the
+  static graph, with the run's real path highlighted on top of it.
 - **Loop-safety by construction** — a hard `maxSteps` ceiling means a buggy
   conditional edge fails loudly instead of hanging the process.
 - **Provider-agnostic core** — the graph and executor depend only on a
@@ -112,7 +121,8 @@ src/
 ├── executor.ts         # CompiledGraph — runs a validated graph, records trace
 ├── errors.ts            # AgentMeshError (carries the trace so far)
 ├── llm/mock-llm.ts       # deterministic LLMClient for tests/examples
-└── *.test.ts              # 13 tests covering validation + execution behavior
+├── visualize/             # layout + SVG/HTML rendering for a trace
+└── *.test.ts                # 19 tests covering validation + execution + rendering
 
 examples/research-assistant/
 ├── state.ts          # ResearchState shape
@@ -135,9 +145,8 @@ npm run example:research   # runs the real 4-agent example (needs a Gemini API k
 
 ## Roadmap
 
-- [ ] Execution-trace visualizer (render the static graph + highlight the
-      path an actual run took, using the `trace` array `invoke()` already
-      returns)
+- [x] Execution-trace visualizer (render the static graph + highlight the
+      path an actual run took)
 - [ ] A second provider adapter (Claude) to demonstrate swapping
       `LLMClient` implementations without touching graph/agent code
 - [ ] Publish to npm
