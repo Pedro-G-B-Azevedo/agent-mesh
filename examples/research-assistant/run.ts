@@ -1,0 +1,52 @@
+import { createGeminiLLM } from "./gemini-client.js";
+import { buildResearchGraph } from "./graph.js";
+
+/**
+ * Loads examples/research-assistant/.env into process.env using Node's
+ * built-in loader (stable since Node 20.12 / 21.7 — no need for the
+ * `dotenv` package as a dependency just for this).
+ *
+ * Why not crash if .env is missing: the user might export GEMINI_API_KEY in
+ * their shell instead of using a file. The real "did we get a key or not"
+ * check happens right after, with a message that explains both options.
+ */
+try {
+  process.loadEnvFile(new URL(".env", import.meta.url));
+} catch {
+  // No .env file present — fall through to the explicit check below.
+}
+
+async function main() {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error(
+      "GEMINI_API_KEY is not set. Copy examples/research-assistant/.env.example to " +
+        "examples/research-assistant/.env and fill in your key from https://aistudio.google.com/apikey " +
+        "(or export GEMINI_API_KEY in your shell).",
+    );
+  }
+
+  const topic = process.argv[2] ?? "O impacto de agentes de IA autônomos no mercado de trabalho de TI";
+
+  const llm = createGeminiLLM({ apiKey, model: process.env.GEMINI_MODEL });
+  const graph = buildResearchGraph();
+
+  console.log(`\nTema: ${topic}\n`);
+  console.log("Executando planner → researcher → writer → critic ...\n");
+
+  const result = await graph.invoke({ topic, revisionCount: 0 }, { llm });
+
+  console.log("--- Rascunho final ---\n");
+  console.log(result.finalState.draft);
+
+  console.log("\n--- Trace de execução ---");
+  for (const step of result.trace) {
+    console.log(`  ${step.node.padEnd(10)} ${step.durationMs}ms`);
+  }
+  console.log(`\nTotal de passos: ${result.steps}, revisões: ${result.finalState.revisionCount}`);
+}
+
+main().catch((error: unknown) => {
+  console.error("\nFalhou:", error instanceof Error ? error.message : error);
+  process.exitCode = 1;
+});
