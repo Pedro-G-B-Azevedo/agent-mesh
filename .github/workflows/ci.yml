@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Matches the "engines" field in package.json — CI proves the
+          # minimum supported version actually works, instead of that field
+          # being an unverified claim.
+          node-version: "20.12"
+          cache: "npm"
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      # Type-checks the Gemini adapter against the real @google/genai types
+      # without ever calling the API — no secret, no network call, no cost.
+      - run: npm run typecheck:examples
+      - run: npm run build
