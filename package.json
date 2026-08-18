@@ -1,0 +1,45 @@
+{
+  "name": "agent-mesh",
+  "version": "0.1.0",
+  "description": "Lightweight TypeScript framework for orchestrating multi-agent LLM workflows as a graph, with execution-trace visualization.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "ai-agents",
+    "llm",
+    "orchestration",
+    "typescript",
+    "workflow-graph"
+  ],
+  "author": "Pedro Gabriel Branco de Azevedo",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "eslint": "^9.15.0",
+    "prettier": "^3.3.3",
+    "tsup": "^8.3.5",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.15.0",
+    "vitest": "^4.1.11"
+  }
+}
